@@ -48,8 +48,9 @@
     </div>
 
     <script>
-        const characters = ["Personaggio 1", "Personaggio 2", /* aggiungi altri personaggi qui */];
+        const characters = ["Personaggio 1", "Personaggio 2"]; // Aggiungi altri personaggi qui
         let remainingPoints = 3; // Numero di punti iniziale
+        const maxSelectedPoints = 3; // Numero massimo di puntini selezionabili per attributo
 
         function updatePointsCount() {
             document.getElementById('pointsCount').innerText = remainingPoints;
