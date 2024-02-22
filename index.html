@@ -47,23 +47,23 @@
         <div id="pointsRemaining">Punti rimanenti: <span id="pointsCount">4</span></div>
         <div id="attributes">
             <h3>Attributi</h3>
-            <div class="attribute">
+            <div id="comandare" class="attribute">
                 <div class="attribute-selector-container">
-                    <span class="attribute-name">Comandare:</span>
                     <div class="attribute-selector" data-type="comandare"></div>
                     <div class="attribute-selector" data-type="comandare"></div>
                     <div class="attribute-selector" data-type="comandare"></div>
                     <div class="attribute-selector" data-type="comandare"></div>
                 </div>
+                <span class="attribute-name">Comandare:</span>
             </div>
-            <div class="attribute">
+            <div id="empatizzare" class="attribute">
                 <div class="attribute-selector-container">
-                    <span class="attribute-name">Empatizzare:</span>
                     <div class="attribute-selector" data-type="empatizzare"></div>
                     <div class="attribute-selector" data-type="empatizzare"></div>
                     <div class="attribute-selector" data-type="empatizzare"></div>
                     <div class="attribute-selector" data-type="empatizzare"></div>
                 </div>
+                <span class="attribute-name">Empatizzare:</span>
             </div>
             <!-- Aggiungi gli altri attributi qui -->
         </div>
@@ -93,12 +93,14 @@
         function toggleAttributeSelection(attributeType) {
             const selectedCount = Object.values(attributes).filter(attr => attr.selected).length;
 
-            if (attributes[attributeType].selected) {
-                attributes[attributeType].selected = false;
-                remainingPoints++; // Aumenta i punti disponibili quando deselezioni un attributo
-            } else if (selectedCount < maxSelectedPoints && remainingPoints > 0) {
-                attributes[attributeType].selected = true;
-                remainingPoints--; // Diminuisci i punti disponibili quando selezioni un attributo
+            if (selectedCount < maxSelectedPoints && remainingPoints > 0) {
+            const lastIndex = Object.values(attributes[attributeType]).findIndex(attr => attr.selected);
+            const currentIndex = Object.values(attributes[attributeType]).findIndex(attr => !attr.selected);
+
+            if (lastIndex === currentIndex - 1 || lastIndex === -1) {
+                attributes[attributeType][currentIndex].selected = true;
+                remainingPoints--;
+            }
             }
 
             updatePointsCount(); // Aggiorna il conteggio dei punti disponibili
