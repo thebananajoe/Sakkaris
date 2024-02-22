@@ -75,16 +75,20 @@
         let remainingPoints = 4; // Numero di punti iniziale
         const maxSelectedPoints = 4; // Numero massimo di puntini selezionabili per attributo
         const attributes = {
-            comandare: { selected: false },
-            empatizzare: { selected: false },
-            manipolare: { selected: false },
-            cacciare: { selected: false },
-            studiare: { selected: false },
-            armeggiare: { selected: false },
-            infiltrare: { selected: false },
-            combattere: { selected: false },
-            distruggere: { selected: false }
-        }; // Oggetto per tenere traccia degli attributi selezionati
+            comandare: [
+                { selected: false },
+                { selected: false },
+                { selected: false },
+                { selected: false }
+            ],
+            empatizzare: [
+                { selected: false },
+                { selected: false },
+                { selected: false },
+                { selected: false }
+            ],
+            // Aggiungi gli altri attributi qui con gli oggetti inizializzati
+        };  // Oggetto per tenere traccia degli attributi selezionati
 
         function updatePointsCount() {
             document.getElementById('pointsCount').innerText = remainingPoints;
