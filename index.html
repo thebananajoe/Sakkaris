@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gioco dei personaggi</title>
+    <style>
+        /* Stili CSS */
+    </style>
+</head>
+<body>
+    <button id="chooseCharacterBtn">Scegli il tuo personaggio</button>
+    <div id="characterInfo" style="display: none;">
+        <h2>Nome: <span id="characterName"></span></h2>
+        <div id="attributes">
+            <h3>Attributi</h3>
+            <label for="strength">Forza:</label>
+            <input type="number" id="strength" min="0" max="10" value="0">
+            <br>
+            <label for="agility">Agilità:</label>
+            <input type="number" id="agility" min="0" max="10" value="0">
+            <br>
+            <!-- Aggiungi altri attributi qui -->
+        </div>
+        <button id="confirmBtn">Conferma</button>
+    </div>
+
+    <script>
+        const characters = ["Personaggio 1", "Personaggio 2", /* aggiungi altri personaggi qui */];
+
+        document.getElementById('chooseCharacterBtn').addEventListener('click', function() {
+            const randomIndex = Math.floor(Math.random() * characters.length);
+            const character = characters[randomIndex];
+            
+            document.getElementById('characterName').innerText = character;
+            document.getElementById('characterInfo').style.display = 'block';
+        });
+
+        document.getElementById('confirmBtn').addEventListener('click', function() {
+            const strength = parseInt(document.getElementById('strength').value);
+            const agility = parseInt(document.getElementById('agility').value);
+            
+            // Fai qualcosa con i valori degli attributi (es. aggiungi a un oggetto character)
+            console.log("Forza:", strength);
+            console.log("Agilità:", agility);
+        });
+    </script>
+</body>
+</html>
