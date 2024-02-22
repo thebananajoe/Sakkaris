@@ -47,24 +47,24 @@
         <div id="pointsRemaining">Punti rimanenti: <span id="pointsCount">4</span></div>
         <div id="attributes">
             <h3>Attributi</h3>
-           <div id="comandare" class="attribute">
-               <div class="attribute-selector-container">
-                   <div class="attribute-selector" data-type="comandare" data-index="0"></div>
-                   <div class="attribute-selector" data-type="comandare" data-index="1"></div>
-                   <div class="attribute-selector" data-type="comandare" data-index="2"></div>
-                   <div class="attribute-selector" data-type="comandare" data-index="3"></div>
-               </div>
-               <span class="attribute-name">Comandare:</span>
-           </div>
-           <div id="empatizzare" class="attribute">
-               <div class="attribute-selector-container">
-                   <div class="attribute-selector" data-type="empatizzare" data-index="0"></div>
-                   <div class="attribute-selector" data-type="empatizzare" data-index="1"></div>
-                   <div class="attribute-selector" data-type="empatizzare" data-index="2"></div>
-                   <div class="attribute-selector" data-type="empatizzare" data-index="3"></div>
-               </div>
-               <span class="attribute-name">Empatizzare:</span>
-           </div>
+            <div id="comandare" class="attribute">
+                <div class="attribute-selector-container">
+                    <div class="attribute-selector" data-type="comandare"></div>
+                    <div class="attribute-selector" data-type="comandare"></div>
+                    <div class="attribute-selector" data-type="comandare"></div>
+                    <div class="attribute-selector" data-type="comandare"></div>
+                </div>
+                <span class="attribute-name">Comandare:</span>
+            </div>
+            <div id="empatizzare" class="attribute">
+                <div class="attribute-selector-container">
+                    <div class="attribute-selector" data-type="empatizzare"></div>
+                    <div class="attribute-selector" data-type="empatizzare"></div>
+                    <div class="attribute-selector" data-type="empatizzare"></div>
+                    <div class="attribute-selector" data-type="empatizzare"></div>
+                </div>
+                <span class="attribute-name">Empatizzare:</span>
+            </div>
             <!-- Aggiungi gli altri attributi qui -->
         </div>
         <button id="confirmBtn">Conferma</button>
@@ -107,16 +107,16 @@
                 }
             }
 
-            // Disabilita tutti i puntini se i punti disponibili sono esauriti
             const allSelectors = document.querySelectorAll(`[data-type="${attributeType}"]`);
             allSelectors.forEach(selector => {
-                const index = parseInt(selector.dataset.index);
-                if (remainingPoints === 0 || index >= remainingPoints) {
+                if (remainingPoints === 0 || selector.classList.contains('selected')) {
                     selector.classList.add('disabled');
+                } else {
+                    selector.classList.remove('disabled');
                 }
             });
 
-            updatePointsCount(); // Aggiorna il conteggio dei punti disponibili
+            updatePointsCount();
         }
 
         document.getElementById('chooseCharacterBtn').addEventListener('click', function() {
@@ -125,23 +125,23 @@
             
             document.getElementById('characterName').innerText = character;
             document.getElementById('characterInfo').style.display = 'block';
-            remainingPoints = 4; // Reimposta il numero di punti disponibili
-            updatePointsCount(); // Aggiorna il conteggio dei punti disponibili
+            remainingPoints = 4;
+            updatePointsCount();
         });
 
         document.getElementById('confirmBtn').addEventListener('click', function() {
-            // Fai qualcosa con i valori degli attributi (es. aggiungi a un oggetto character)
             const playerName = document.getElementById('playerName').value;
             console.log("Nome del giocatore:", playerName);
             console.log("Attributi selezionati:");
             for (const attr in attributes) {
-                if (attributes[attr].selected) {
-                    console.log(attr);
-                }
+                attributes[attr].forEach((item, index) => {
+                    if (item.selected) {
+                        console.log(attr, index);
+                    }
+                });
             }
         });
 
-        // Aggiungi eventi di clic per ciascun puntino
         const attributeSelectors = document.querySelectorAll('.attribute-selector');
         attributeSelectors.forEach(selector => {
             const attributeType = selector.getAttribute('data-type');
