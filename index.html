@@ -30,6 +30,7 @@
     <button id="chooseCharacterBtn">Scegli il tuo personaggio</button>
     <div id="characterInfo" style="display: none;">
         <h2>Nome: <span id="characterName"></span></h2>
+        <div id="pointsRemaining">Punti rimanenti: <span id="pointsCount">3</span></div>
         <div id="attributes">
             <h3>Attributi</h3>
             <div class="attribute-selector" id="strength1"></div>
@@ -48,7 +49,11 @@
 
     <script>
         const characters = ["Personaggio 1", "Personaggio 2", /* aggiungi altri personaggi qui */];
-        const maxSelectedPoints = 3; // Numero massimo di puntini selezionabili per attributo
+        let remainingPoints = 3; // Numero di punti iniziale
+
+        function updatePointsCount() {
+            document.getElementById('pointsCount').innerText = remainingPoints;
+        }
 
         function toggleAttributeSelection(attributeId, index) {
             const attributeElement = document.getElementById(attributeId);
@@ -56,16 +61,13 @@
 
             if (attributeElement.classList.contains('selected')) {
                 attributeElement.classList.remove('selected');
-            } else if (selectedCount < maxSelectedPoints) {
+                remainingPoints++; // Aumenta i punti disponibili quando deselezioni un puntino
+            } else if (selectedCount < maxSelectedPoints && remainingPoints > 0) {
                 attributeElement.classList.add('selected');
+                remainingPoints--; // Diminuisci i punti disponibili quando selezioni un puntino
             }
 
-            // Disabilita i puntini successivi una volta raggiunto il limite
-            const allSelectors = document.querySelectorAll('.attribute-selector');
-            const startIndex = Array.from(allSelectors).indexOf(attributeElement);
-            for (let i = startIndex + 1; i < allSelectors.length; i++) {
-                allSelectors[i].classList.toggle('disabled', document.querySelectorAll('.attribute-selector.selected').length >= maxSelectedPoints);
-            }
+            updatePointsCount(); // Aggiorna il conteggio dei punti disponibili
         }
 
         document.getElementById('chooseCharacterBtn').addEventListener('click', function() {
@@ -74,6 +76,8 @@
             
             document.getElementById('characterName').innerText = character;
             document.getElementById('characterInfo').style.display = 'block';
+            remainingPoints = 3; // Reimposta il numero di punti disponibili
+            updatePointsCount(); // Aggiorna il conteggio dei punti disponibili
         });
 
         document.getElementById('confirmBtn').addEventListener('click', function() {
