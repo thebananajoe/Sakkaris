@@ -97,7 +97,7 @@
         function toggleAttributeSelection(attributeType) {
             const selectedCount = Object.values(attributes).flat().filter(attr => attr.selected).length;
 
-            if (remainingPoints > 0) {
+            if (remainingPoints > 0 && selectedCount < maxSelectedPoints) {
                 const lastIndex = Object.values(attributes[attributeType]).findIndex(attr => attr.selected);
                 const currentIndex = Object.values(attributes[attributeType]).findIndex(attr => !attr.selected);
 
@@ -106,6 +106,15 @@
                     remainingPoints--;
                 }
             }
+
+            // Disabilita tutti i puntini se i punti disponibili sono esauriti
+            const allSelectors = document.querySelectorAll(`[data-type="${attributeType}"]`);
+            allSelectors.forEach(selector => {
+                const index = parseInt(selector.dataset.index);
+                if (remainingPoints === 0 || index >= remainingPoints) {
+                    selector.classList.add('disabled');
+                }
+            });
 
             updatePointsCount(); // Aggiorna il conteggio dei punti disponibili
         }
