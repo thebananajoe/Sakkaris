@@ -6,6 +6,19 @@
     <title>Gioco dei personaggi</title>
     <style>
         /* Stili CSS */
+        .attribute-selector {
+            cursor: pointer;
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            background-color: #ccc;
+            border-radius: 50%;
+            margin-right: 5px;
+        }
+
+        .attribute-selector.selected {
+            background-color: #007bff;
+        }
     </style>
 </head>
 <body>
@@ -14,12 +27,15 @@
         <h2>Nome: <span id="characterName"></span></h2>
         <div id="attributes">
             <h3>Attributi</h3>
-            <label for="strength">Forza:</label>
-            <input type="number" id="strength" min="0" max="10" value="0">
+            <div class="attribute-selector" id="strength1"></div>
+            <div class="attribute-selector" id="strength2"></div>
+            <div class="attribute-selector" id="strength3"></div>
+            <div class="attribute-selector" id="strength4"></div>
             <br>
-            <label for="agility">Agilità:</label>
-            <input type="number" id="agility" min="0" max="10" value="0">
-            <br>
+            <div class="attribute-selector" id="agility1"></div>
+            <div class="attribute-selector" id="agility2"></div>
+            <div class="attribute-selector" id="agility3"></div>
+            <div class="attribute-selector" id="agility4"></div>
             <!-- Aggiungi altri attributi qui -->
         </div>
         <button id="confirmBtn">Conferma</button>
@@ -27,6 +43,12 @@
 
     <script>
         const characters = ["Personaggio 1", "Personaggio 2", /* aggiungi altri personaggi qui */];
+
+        function toggleAttributeSelection(attributeId, index) {
+            const attributeElement = document.getElementById(attributeId);
+            attributeElement.classList.toggle('selected');
+            // Se vuoi fare qualcosa quando l'attributo viene selezionato/deselezionato, aggiungi qui la logica
+        }
 
         document.getElementById('chooseCharacterBtn').addEventListener('click', function() {
             const randomIndex = Math.floor(Math.random() * characters.length);
@@ -37,12 +59,22 @@
         });
 
         document.getElementById('confirmBtn').addEventListener('click', function() {
-            const strength = parseInt(document.getElementById('strength').value);
-            const agility = parseInt(document.getElementById('agility').value);
-            
+            // Conta quanti puntini sono selezionati per ciascun attributo
+            const strengthPoints = document.querySelectorAll('#attributes .attribute-selector#strength1.selected, #attributes .attribute-selector#strength2.selected, #attributes .attribute-selector#strength3.selected, #attributes .attribute-selector#strength4.selected').length;
+            const agilityPoints = document.querySelectorAll('#attributes .attribute-selector#agility1.selected, #attributes .attribute-selector#agility2.selected, #attributes .attribute-selector#agility3.selected, #attributes .attribute-selector#agility4.selected').length;
+
             // Fai qualcosa con i valori degli attributi (es. aggiungi a un oggetto character)
-            console.log("Forza:", strength);
-            console.log("Agilità:", agility);
+            console.log("Forza:", strengthPoints);
+            console.log("Agilità:", agilityPoints);
+        });
+
+        // Aggiungi eventi di clic per ciascun puntino
+        const attributeSelectors = document.querySelectorAll('.attribute-selector');
+        attributeSelectors.forEach((selector, index) => {
+            selector.addEventListener('click', () => {
+                const attributeId = selector.getAttribute('id');
+                toggleAttributeSelection(attributeId, index);
+            });
         });
     </script>
 </body>
