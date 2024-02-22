@@ -59,12 +59,15 @@
             const attributeElement = document.getElementById(attributeId);
             const selectedCount = document.querySelectorAll('.attribute-selector.selected').length;
 
-            if (attributeElement.classList.contains('selected')) {
-                attributeElement.classList.remove('selected');
-                remainingPoints++; // Aumenta i punti disponibili quando deselezioni un puntino
-            } else if (selectedCount < maxSelectedPoints && remainingPoints > 0) {
-                attributeElement.classList.add('selected');
-                remainingPoints--; // Diminuisci i punti disponibili quando selezioni un puntino
+            // Controllo se il puntino che si sta cercando di selezionare segue l'ordine corretto rispetto ai puntini già selezionati
+            if (index === selectedCount) {
+                if (attributeElement.classList.contains('selected')) {
+                    attributeElement.classList.remove('selected');
+                    remainingPoints++; // Aumenta i punti disponibili quando deselezioni un puntino
+                } else if (selectedCount < maxSelectedPoints && remainingPoints > 0) {
+                    attributeElement.classList.add('selected');
+                    remainingPoints--; // Diminuisci i punti disponibili quando selezioni un puntino
+                }
             }
 
             updatePointsCount(); // Aggiorna il conteggio dei punti disponibili
