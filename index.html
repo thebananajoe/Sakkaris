@@ -95,16 +95,16 @@
         }
 
         function toggleAttributeSelection(attributeType) {
-            const selectedCount = Object.values(attributes).filter(attr => attr.selected).length;
+            const selectedCount = Object.values(attributes).flat().filter(attr => attr.selected).length;
 
-            if (selectedCount < maxSelectedPoints && remainingPoints > 0) {
-            const lastIndex = Object.values(attributes[attributeType]).findIndex(attr => attr.selected);
-            const currentIndex = Object.values(attributes[attributeType]).findIndex(attr => !attr.selected);
+            if (remainingPoints > 0) {
+                const lastIndex = Object.values(attributes[attributeType]).findIndex(attr => attr.selected);
+                const currentIndex = Object.values(attributes[attributeType]).findIndex(attr => !attr.selected);
 
-            if (lastIndex === currentIndex - 1 || lastIndex === -1) {
-                attributes[attributeType][currentIndex].selected = true;
-                remainingPoints--;
-            }
+                if (lastIndex === currentIndex - 1 || lastIndex === -1) {
+                    attributes[attributeType][currentIndex].selected = true;
+                    remainingPoints--;
+                }
             }
 
             updatePointsCount(); // Aggiorna il conteggio dei punti disponibili
