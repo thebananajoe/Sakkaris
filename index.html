@@ -29,7 +29,11 @@
 <body>
     <button id="chooseCharacterBtn">Scegli il tuo personaggio</button>
     <div id="characterInfo" style="display: none;">
-        <h2>Nome: <span id="characterName"></span></h2>
+        <h2>Nome: <span id="characterName">Personaggio 1</span></h2>
+        <div>
+            <label for="playerName">Il tuo nome:</label>
+            <input type="text" id="playerName" placeholder="Inserisci il tuo nome">
+        </div>
         <div id="pointsRemaining">Punti rimanenti: <span id="pointsCount">3</span></div>
         <div id="attributes">
             <h3>Attributi</h3>
@@ -92,6 +96,8 @@
             // Fai qualcosa con i valori degli attributi (es. aggiungi a un oggetto character)
             console.log("Forza:", strengthPoints);
             console.log("Agilità:", agilityPoints);
+            const playerName = document.getElementById('playerName').value;
+            console.log("Nome del giocatore:", playerName);
         });
 
         // Aggiungi eventi di clic per ciascun puntino
@@ -104,4 +110,3 @@
         });
     </script>
 </body>
-</html>
