@@ -19,6 +19,11 @@
         .attribute-selector.selected {
             background-color: #007bff;
         }
+
+        .attribute-selector.disabled {
+            cursor: not-allowed;
+            opacity: 0.5;
+        }
     </style>
 </head>
 <body>
@@ -43,11 +48,24 @@
 
     <script>
         const characters = ["Personaggio 1", "Personaggio 2", /* aggiungi altri personaggi qui */];
+        const maxSelectedPoints = 3; // Numero massimo di puntini selezionabili per attributo
 
         function toggleAttributeSelection(attributeId, index) {
             const attributeElement = document.getElementById(attributeId);
-            attributeElement.classList.toggle('selected');
-            // Se vuoi fare qualcosa quando l'attributo viene selezionato/deselezionato, aggiungi qui la logica
+            const selectedCount = document.querySelectorAll('.attribute-selector.selected').length;
+
+            if (attributeElement.classList.contains('selected')) {
+                attributeElement.classList.remove('selected');
+            } else if (selectedCount < maxSelectedPoints) {
+                attributeElement.classList.add('selected');
+            }
+
+            // Disabilita i puntini successivi una volta raggiunto il limite
+            const allSelectors = document.querySelectorAll('.attribute-selector');
+            const startIndex = Array.from(allSelectors).indexOf(attributeElement);
+            for (let i = startIndex + 1; i < allSelectors.length; i++) {
+                allSelectors[i].classList.toggle('disabled', document.querySelectorAll('.attribute-selector.selected').length >= maxSelectedPoints);
+            }
         }
 
         document.getElementById('chooseCharacterBtn').addEventListener('click', function() {
