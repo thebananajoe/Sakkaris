@@ -34,18 +34,45 @@
             <label for="playerName">Il tuo nome:</label>
             <input type="text" id="playerName" placeholder="Inserisci il tuo nome">
         </div>
-        <div id="pointsRemaining">Punti rimanenti: <span id="pointsCount">3</span></div>
+        <div id="pointsRemaining">Punti rimanenti: <span id="pointsCount">4</span></div>
         <div id="attributes">
             <h3>Attributi</h3>
-            <div class="attribute-selector" id="strength1"></div>
-            <div class="attribute-selector" id="strength2"></div>
-            <div class="attribute-selector" id="strength3"></div>
-            <div class="attribute-selector" id="strength4"></div>
-            <br>
-            <div class="attribute-selector" id="agility1"></div>
-            <div class="attribute-selector" id="agility2"></div>
-            <div class="attribute-selector" id="agility3"></div>
-            <div class="attribute-selector" id="agility4"></div>
+            <div id="comandare" class="attribute">
+                Comandare:
+                <div class="attribute-selector" data-type="comandare"></div>
+            </div>
+            <div id="empatizzare" class="attribute">
+                Empatizzare:
+                <div class="attribute-selector" data-type="empatizzare"></div>
+            </div>
+            <div id="manipolare" class="attribute">
+                Manipolare:
+                <div class="attribute-selector" data-type="manipolare"></div>
+            </div>
+            <div id="cacciare" class="attribute">
+                Cacciare:
+                <div class="attribute-selector" data-type="cacciare"></div>
+            </div>
+            <div id="studiare" class="attribute">
+                Studiare:
+                <div class="attribute-selector" data-type="studiare"></div>
+            </div>
+            <div id="armeggiare" class="attribute">
+                Armeggiare:
+                <div class="attribute-selector" data-type="armeggiare"></div>
+            </div>
+            <div id="infiltrare" class="attribute">
+                Infiltrare:
+                <div class="attribute-selector" data-type="infiltrare"></div>
+            </div>
+            <div id="combattere" class="attribute">
+                Combattere:
+                <div class="attribute-selector" data-type="combattere"></div>
+            </div>
+            <div id="distruggere" class="attribute">
+                Distruggere:
+                <div class="attribute-selector" data-type="distruggere"></div>
+            </div>
             <!-- Aggiungi altri attributi qui -->
         </div>
         <button id="confirmBtn">Conferma</button>
@@ -53,26 +80,33 @@
 
     <script>
         const characters = ["Personaggio 1", "Personaggio 2"]; // Aggiungi altri personaggi qui
-        let remainingPoints = 3; // Numero di punti iniziale
-        const maxSelectedPoints = 3; // Numero massimo di puntini selezionabili per attributo
+        let remainingPoints = 4; // Numero di punti iniziale
+        const maxSelectedPoints = 4; // Numero massimo di puntini selezionabili per attributo
+        const attributes = {
+            comandare: { selected: false },
+            empatizzare: { selected: false },
+            manipolare: { selected: false },
+            cacciare: { selected: false },
+            studiare: { selected: false },
+            armeggiare: { selected: false },
+            infiltrare: { selected: false },
+            combattere: { selected: false },
+            distruggere: { selected: false }
+        }; // Oggetto per tenere traccia degli attributi selezionati
 
         function updatePointsCount() {
             document.getElementById('pointsCount').innerText = remainingPoints;
         }
 
-        function toggleAttributeSelection(attributeId, index) {
-            const attributeElement = document.getElementById(attributeId);
-            const selectedCount = document.querySelectorAll('.attribute-selector.selected').length;
+        function toggleAttributeSelection(attributeType) {
+            const selectedCount = Object.values(attributes).filter(attr => attr.selected).length;
 
-            // Controllo se il puntino che si sta cercando di selezionare segue l'ordine corretto rispetto ai puntini già selezionati
-            if (index === selectedCount) {
-                if (attributeElement.classList.contains('selected')) {
-                    attributeElement.classList.remove('selected');
-                    remainingPoints++; // Aumenta i punti disponibili quando deselezioni un puntino
-                } else if (selectedCount < maxSelectedPoints && remainingPoints > 0) {
-                    attributeElement.classList.add('selected');
-                    remainingPoints--; // Diminuisci i punti disponibili quando selezioni un puntino
-                }
+            if (attributes[attributeType].selected) {
+                attributes[attributeType].selected = false;
+                remainingPoints++; // Aumenta i punti disponibili quando deselezioni un attributo
+            } else if (selectedCount < maxSelectedPoints && remainingPoints > 0) {
+                attributes[attributeType].selected = true;
+                remainingPoints--; // Diminuisci i punti disponibili quando selezioni un attributo
             }
 
             updatePointsCount(); // Aggiorna il conteggio dei punti disponibili
@@ -84,29 +118,31 @@
             
             document.getElementById('characterName').innerText = character;
             document.getElementById('characterInfo').style.display = 'block';
-            remainingPoints = 3; // Reimposta il numero di punti disponibili
+            remainingPoints = 4; // Reimposta il numero di punti disponibili
             updatePointsCount(); // Aggiorna il conteggio dei punti disponibili
         });
 
         document.getElementById('confirmBtn').addEventListener('click', function() {
-            // Conta quanti puntini sono selezionati per ciascun attributo
-            const strengthPoints = document.querySelectorAll('#attributes .attribute-selector#strength1.selected, #attributes .attribute-selector#strength2.selected, #attributes .attribute-selector#strength3.selected, #attributes .attribute-selector#strength4.selected').length;
-            const agilityPoints = document.querySelectorAll('#attributes .attribute-selector#agility1.selected, #attributes .attribute-selector#agility2.selected, #attributes .attribute-selector#agility3.selected, #attributes .attribute-selector#agility4.selected').length;
-
             // Fai qualcosa con i valori degli attributi (es. aggiungi a un oggetto character)
-            console.log("Forza:", strengthPoints);
-            console.log("Agilità:", agilityPoints);
             const playerName = document.getElementById('playerName').value;
             console.log("Nome del giocatore:", playerName);
+            console.log("Attributi selezionati:");
+            for (const attr in attributes) {
+                if (attributes[attr].selected) {
+                    console.log(attr);
+                }
+            }
         });
 
         // Aggiungi eventi di clic per ciascun puntino
         const attributeSelectors = document.querySelectorAll('.attribute-selector');
-        attributeSelectors.forEach((selector, index) => {
+        attributeSelectors.forEach(selector => {
+            const attributeType = selector.parentElement.id;
             selector.addEventListener('click', () => {
-                const attributeId = selector.getAttribute('id');
-                toggleAttributeSelection(attributeId, index);
+                toggleAttributeSelection(attributeType);
+                selector.classList.toggle('selected');
             });
         });
     </script>
 </body>
+</html>
