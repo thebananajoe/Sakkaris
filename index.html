@@ -6,6 +6,16 @@
     <title>Gioco dei personaggi</title>
     <style>
         /* Stili CSS */
+        .attribute-selector-container {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .attribute-name {
+            margin-right: 10px;
+        }
+
         .attribute-selector {
             cursor: pointer;
             display: inline-block;
@@ -37,43 +47,25 @@
         <div id="pointsRemaining">Punti rimanenti: <span id="pointsCount">4</span></div>
         <div id="attributes">
             <h3>Attributi</h3>
-            <div id="comandare" class="attribute">
-                Comandare:
-                <div class="attribute-selector" data-type="comandare"></div>
+            <div class="attribute">
+                <div class="attribute-selector-container">
+                    <span class="attribute-name">Comandare:</span>
+                    <div class="attribute-selector" data-type="comandare"></div>
+                    <div class="attribute-selector" data-type="comandare"></div>
+                    <div class="attribute-selector" data-type="comandare"></div>
+                    <div class="attribute-selector" data-type="comandare"></div>
+                </div>
             </div>
-            <div id="empatizzare" class="attribute">
-                Empatizzare:
-                <div class="attribute-selector" data-type="empatizzare"></div>
+            <div class="attribute">
+                <div class="attribute-selector-container">
+                    <span class="attribute-name">Empatizzare:</span>
+                    <div class="attribute-selector" data-type="empatizzare"></div>
+                    <div class="attribute-selector" data-type="empatizzare"></div>
+                    <div class="attribute-selector" data-type="empatizzare"></div>
+                    <div class="attribute-selector" data-type="empatizzare"></div>
+                </div>
             </div>
-            <div id="manipolare" class="attribute">
-                Manipolare:
-                <div class="attribute-selector" data-type="manipolare"></div>
-            </div>
-            <div id="cacciare" class="attribute">
-                Cacciare:
-                <div class="attribute-selector" data-type="cacciare"></div>
-            </div>
-            <div id="studiare" class="attribute">
-                Studiare:
-                <div class="attribute-selector" data-type="studiare"></div>
-            </div>
-            <div id="armeggiare" class="attribute">
-                Armeggiare:
-                <div class="attribute-selector" data-type="armeggiare"></div>
-            </div>
-            <div id="infiltrare" class="attribute">
-                Infiltrare:
-                <div class="attribute-selector" data-type="infiltrare"></div>
-            </div>
-            <div id="combattere" class="attribute">
-                Combattere:
-                <div class="attribute-selector" data-type="combattere"></div>
-            </div>
-            <div id="distruggere" class="attribute">
-                Distruggere:
-                <div class="attribute-selector" data-type="distruggere"></div>
-            </div>
-            <!-- Aggiungi altri attributi qui -->
+            <!-- Aggiungi gli altri attributi qui -->
         </div>
         <button id="confirmBtn">Conferma</button>
     </div>
@@ -137,7 +129,7 @@
         // Aggiungi eventi di clic per ciascun puntino
         const attributeSelectors = document.querySelectorAll('.attribute-selector');
         attributeSelectors.forEach(selector => {
-            const attributeType = selector.parentElement.id;
+            const attributeType = selector.getAttribute('data-type');
             selector.addEventListener('click', () => {
                 toggleAttributeSelection(attributeType);
                 selector.classList.toggle('selected');
